@@ -1,0 +1,1014 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2800" height="1880" viewBox="0 0 2800 1880" font-family="Segoe UI, Microsoft YaHei, PingFang SC, Noto Sans CJK SC, Arial, sans-serif">
+<defs>
+<pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20,0 L0,0 0,20" fill="none" stroke="#e9eef5" stroke-width="0.8"/></pattern>
+<filter id="sh" x="-10%" y="-10%" width="130%" height="130%"><feDropShadow dx="2.5" dy="2.5" stdDeviation="1.6" flood-color="#000" flood-opacity="0.22"/></filter>
+<linearGradient id="g_blk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eaf2fb"/><stop offset="1" stop-color="#c5daf1"/></linearGradient>
+<linearGradient id="g_rf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eaf2fb"/><stop offset="1" stop-color="#bcd4ef"/></linearGradient>
+<linearGradient id="g_ctrl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1e3"/><stop offset="1" stop-color="#f8cfa6"/></linearGradient>
+<linearGradient id="g_haz" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fdecec"/><stop offset="1" stop-color="#f4c2c2"/></linearGradient>
+<linearGradient id="g_fwd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eaf6ea"/><stop offset="1" stop-color="#c3e3c4"/></linearGradient>
+<linearGradient id="g_bru" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1e3"/><stop offset="1" stop-color="#f8cfa6"/></linearGradient>
+<linearGradient id="g_mux" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffbe6"/><stop offset="1" stop-color="#ffe699"/></linearGradient>
+<linearGradient id="g_alu" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef7e8"/><stop offset="1" stop-color="#cfe6bd"/></linearGradient>
+<linearGradient id="g_adder" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef7e8"/><stop offset="1" stop-color="#cfe6bd"/></linearGradient>
+<linearGradient id="g_reg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f1ecf8"/><stop offset="1" stop-color="#d6c8ec"/></linearGradient>
+<linearGradient id="g_preg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f3f0fa"/><stop offset="1" stop-color="#dcd3ef"/></linearGradient>
+<marker id="ar_data" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,1 L10,5 L0,9 z" fill="#1f3a68"/></marker>
+<marker id="ar_ctrl" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,1 L10,5 L0,9 z" fill="#c55a11"/></marker>
+<marker id="ar_haz" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,1 L10,5 L0,9 z" fill="#c00000"/></marker>
+<marker id="ar_fwd" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,1 L10,5 L0,9 z" fill="#2e7d32"/></marker>
+<marker id="ar_idx" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,1 L10,5 L0,9 z" fill="#7030a0"/></marker>
+<marker id="ar_const" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,1 L10,5 L0,9 z" fill="#444"/></marker>
+</defs>
+<rect width="2800" height="1880" fill="#ffffff"/><rect width="2800" height="1880" fill="url(#grid)"/>
+<text x="30" y="36" font-size="24" font-weight="bold" fill="#1f3864">RV32I 五级流水线 CPU 微架构框图</text>
+<text x="430" y="36" font-size="13" fill="#555">IF / ID / EX / MEM / WB · 全前递 (EX/MEM, MEM/WB → EX) · load-use 停顿 1 拍 · 分支/跳转在 EX 解析 (预测不跳转, 冲刷 2 条) · 寄存器堆写优先旁路</text>
+<rect x="20" y="62" width="450" height="1010" fill="#dae8fc" fill-opacity="0.28" stroke="#9fb3c8" stroke-opacity="0.9" stroke-dasharray="4 3"/>
+<rect x="20" y="62" width="450" height="24" fill="#dae8fc"/>
+<text x="245" y="79" font-size="14" font-weight="bold" fill="#1f3864" text-anchor="middle">IF  取指</text>
+<rect x="540" y="62" width="590" height="1010" fill="#d5e8d4" fill-opacity="0.28" stroke="#9fb3c8" stroke-opacity="0.9" stroke-dasharray="4 3"/>
+<rect x="540" y="62" width="590" height="24" fill="#d5e8d4"/>
+<text x="835" y="79" font-size="14" font-weight="bold" fill="#1f3864" text-anchor="middle">ID  译码/读寄存器</text>
+<rect x="1200" y="62" width="840" height="1010" fill="#ffe6cc" fill-opacity="0.28" stroke="#9fb3c8" stroke-opacity="0.9" stroke-dasharray="4 3"/>
+<rect x="1200" y="62" width="840" height="24" fill="#ffe6cc"/>
+<text x="1620" y="79" font-size="14" font-weight="bold" fill="#1f3864" text-anchor="middle">EX  执行</text>
+<rect x="2110" y="62" width="350" height="1010" fill="#e1d5e7" fill-opacity="0.28" stroke="#9fb3c8" stroke-opacity="0.9" stroke-dasharray="4 3"/>
+<rect x="2110" y="62" width="350" height="24" fill="#e1d5e7"/>
+<text x="2285" y="79" font-size="14" font-weight="bold" fill="#1f3864" text-anchor="middle">MEM  访存</text>
+<rect x="2530" y="62" width="250" height="1010" fill="#f8cecc" fill-opacity="0.28" stroke="#9fb3c8" stroke-opacity="0.9" stroke-dasharray="4 3"/>
+<rect x="2530" y="62" width="250" height="24" fill="#f8cecc"/>
+<text x="2655" y="79" font-size="14" font-weight="bold" fill="#1f3864" text-anchor="middle">WB  写回</text>
+<rect x="470" y="220" width="70" height="740" rx="2" fill="url(#g_preg)" stroke="#5b3f8c" stroke-width="1.4" filter="url(#sh)"/>
+<text x="505" y="978" font-size="13" font-weight="bold" fill="#5b3f8c" text-anchor="middle">IF/ID</text>
+<text x="505" y="558.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">pc</text>
+<line x1="473" y1="563" x2="537" y2="563" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="505" y="593.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">pc4</text>
+<line x1="473" y1="598" x2="537" y2="598" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="505" y="643.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">instr</text>
+<line x1="473" y1="648" x2="537" y2="648" stroke="#b6a7d6" stroke-width="0.6"/>
+<polyline points="498,960 505,951 512,960" fill="none" stroke="#5b3f8c" stroke-width="1.2"/>
+<rect x="1130" y="220" width="70" height="740" rx="2" fill="url(#g_preg)" stroke="#5b3f8c" stroke-width="1.4" filter="url(#sh)"/>
+<text x="1165" y="978" font-size="13" font-weight="bold" fill="#5b3f8c" text-anchor="middle">ID/EX</text>
+<text x="1165" y="241.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">rd</text>
+<line x1="1133" y1="246" x2="1197" y2="246" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="265.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">MemRd</text>
+<line x1="1133" y1="270" x2="1197" y2="270" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="283.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">RegWr</text>
+<line x1="1133" y1="288" x2="1197" y2="288" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="301.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">WBSel</text>
+<line x1="1133" y1="306" x2="1197" y2="306" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="319.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">MemWr</text>
+<line x1="1133" y1="324" x2="1197" y2="324" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="337.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">Jump</text>
+<line x1="1133" y1="342" x2="1197" y2="342" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="355.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">Branch</text>
+<line x1="1133" y1="360" x2="1197" y2="360" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="373.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">Jalr</text>
+<line x1="1133" y1="378" x2="1197" y2="378" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="391.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">ALUSrcB</text>
+<line x1="1133" y1="396" x2="1197" y2="396" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="409.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">ALUSrcA</text>
+<line x1="1133" y1="414" x2="1197" y2="414" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="427.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">ALUOp</text>
+<line x1="1133" y1="432" x2="1197" y2="432" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="455.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">funct7[5]</text>
+<line x1="1133" y1="460" x2="1197" y2="460" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="479.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">funct3</text>
+<line x1="1133" y1="484" x2="1197" y2="484" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="513.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">imm</text>
+<line x1="1133" y1="518" x2="1197" y2="518" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="558.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">pc</text>
+<line x1="1133" y1="563" x2="1197" y2="563" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="593.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">pc4</text>
+<line x1="1133" y1="598" x2="1197" y2="598" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="668.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">rs1_data</text>
+<line x1="1133" y1="673" x2="1197" y2="673" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="768.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">rs2_data</text>
+<line x1="1133" y1="773" x2="1197" y2="773" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="899.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">rs1</text>
+<line x1="1133" y1="904" x2="1197" y2="904" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="1165" y="917.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">rs2</text>
+<line x1="1133" y1="922" x2="1197" y2="922" stroke="#b6a7d6" stroke-width="0.6"/>
+<polyline points="1158,960 1165,951 1172,960" fill="none" stroke="#5b3f8c" stroke-width="1.2"/>
+<rect x="2040" y="220" width="70" height="740" rx="2" fill="url(#g_preg)" stroke="#5b3f8c" stroke-width="1.4" filter="url(#sh)"/>
+<text x="2075" y="978" font-size="13" font-weight="bold" fill="#5b3f8c" text-anchor="middle">EX/MEM</text>
+<text x="2075" y="241.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">rd</text>
+<line x1="2043" y1="246" x2="2107" y2="246" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="2075" y="265.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">MemRd</text>
+<line x1="2043" y1="270" x2="2107" y2="270" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="2075" y="283.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">RegWr</text>
+<line x1="2043" y1="288" x2="2107" y2="288" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="2075" y="301.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">WBSel</text>
+<line x1="2043" y1="306" x2="2107" y2="306" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="2075" y="319.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">MemWr</text>
+<line x1="2043" y1="324" x2="2107" y2="324" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="2075" y="479.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">funct3</text>
+<line x1="2043" y1="484" x2="2107" y2="484" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="2075" y="593.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">pc4</text>
+<line x1="2043" y1="598" x2="2107" y2="598" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="2075" y="803.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">alu_res</text>
+<line x1="2043" y1="808" x2="2107" y2="808" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="2075" y="863.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">st_data</text>
+<line x1="2043" y1="868" x2="2107" y2="868" stroke="#b6a7d6" stroke-width="0.6"/>
+<polyline points="2068,960 2075,951 2082,960" fill="none" stroke="#5b3f8c" stroke-width="1.2"/>
+<rect x="2460" y="220" width="70" height="740" rx="2" fill="url(#g_preg)" stroke="#5b3f8c" stroke-width="1.4" filter="url(#sh)"/>
+<text x="2495" y="978" font-size="13" font-weight="bold" fill="#5b3f8c" text-anchor="middle">MEM/WB</text>
+<text x="2495" y="241.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">rd</text>
+<line x1="2463" y1="246" x2="2527" y2="246" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="2495" y="283.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">RegWr</text>
+<line x1="2463" y1="288" x2="2527" y2="288" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="2495" y="301.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">WBSel</text>
+<line x1="2463" y1="306" x2="2527" y2="306" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="2495" y="593.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">pc4</text>
+<line x1="2463" y1="598" x2="2527" y2="598" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="2495" y="803.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">alu_res</text>
+<line x1="2463" y1="808" x2="2527" y2="808" stroke="#b6a7d6" stroke-width="0.6"/>
+<text x="2495" y="843.5" font-size="9.5" fill="#3b2a5c" text-anchor="middle">rdata</text>
+<line x1="2463" y1="848" x2="2527" y2="848" stroke="#b6a7d6" stroke-width="0.6"/>
+<polyline points="2488,960 2495,951 2502,960" fill="none" stroke="#5b3f8c" stroke-width="1.2"/>
+<polygon points="60,380 90,390 90,450 60,460" fill="url(#g_mux)" stroke="#9c7a00" stroke-width="1.4" filter="url(#sh)"/>
+<text x="77" y="424" font-size="11" font-weight="bold" fill="#7a5f00" text-anchor="middle"></text>
+<text x="63" y="403.5" font-size="9.5" fill="#333">0</text>
+<text x="63" y="443.5" font-size="9.5" fill="#333">1</text>
+<rect x="140" y="390" width="80" height="60" rx="3" fill="url(#g_reg)" stroke="#5b3f8c" stroke-width="1.4" filter="url(#sh)"/>
+<polyline points="173,450 180,441 187,450" fill="none" stroke="#5b3f8c" stroke-width="1.2"/>
+<text x="180" y="416" font-size="13" font-weight="bold" fill="#3b2a5c" text-anchor="middle">PC</text>
+<text x="180" y="430" font-size="9.5" fill="#444" text-anchor="middle"></text>
+<text x="144" y="423.5" font-size="9.5" fill="#333">D</text>
+<text x="216" y="423.5" font-size="9.5" fill="#333" text-anchor="end">Q</text>
+<text x="180" y="402" font-size="9.5" fill="#333" text-anchor="middle">en</text>
+<polygon points="290,600 340,615 340,645 290,660 290,634.8 304,630 290,625.2" fill="url(#g_adder)" stroke="#4e7a2a" stroke-width="1.4" filter="url(#sh)"/>
+<text x="322" y="635" font-size="13" font-weight="bold" fill="#35541c" text-anchor="middle">+4</text>
+<rect x="250" y="690" width="160" height="110" rx="3" fill="url(#g_blk)" stroke="#2f5597" stroke-width="1.4" filter="url(#sh)"/>
+<text x="330" y="750" font-size="13" font-weight="bold" fill="#1f3864" text-anchor="middle">Instruction Memory</text>
+<text x="330" y="764" font-size="10" fill="#444" text-anchor="middle">IMEM (ROM, 组合读)</text>
+<text x="254" y="723.5" font-size="9.5" fill="#333">addr</text>
+<rect x="640" y="118" width="300" height="66" rx="3" fill="url(#g_haz)" stroke="#c00000" stroke-width="1.4" filter="url(#sh)"/>
+<text x="760" y="148" font-size="13" font-weight="bold" fill="#1f3864" text-anchor="middle">Hazard Detection Unit</text>
+<text x="760" y="162" font-size="10" fill="#444" text-anchor="middle">load-use 检测 / 冲刷控制</text>
+<text x="680" y="180" font-size="9.5" fill="#333" text-anchor="middle">rs1</text>
+<text x="710" y="180" font-size="9.5" fill="#333" text-anchor="middle">rs2</text>
+<text x="800" y="130" font-size="9.5" fill="#333" text-anchor="middle">pc_src</text>
+<text x="936" y="139.5" font-size="9.5" fill="#333" text-anchor="end">ID_EX.rd</text>
+<text x="936" y="155.5" font-size="9.5" fill="#333" text-anchor="end">ID_EX.MemRd</text>
+<text x="936" y="175.5" font-size="9.5" fill="#333" text-anchor="end">ID_EX_flush</text>
+<rect x="660" y="250" width="180" height="184" rx="3" fill="url(#g_ctrl)" stroke="#c55a11" stroke-width="1.4" filter="url(#sh)"/>
+<text x="722" y="272" font-size="13" font-weight="bold" fill="#1f3864" text-anchor="middle">Main Control</text>
+<text x="722" y="286" font-size="10" fill="#444" text-anchor="middle">主译码器 (opcode)</text>
+<text x="664" y="343.5" font-size="9.5" fill="#333">opcode</text>
+<text x="836" y="265.5" font-size="9.5" fill="#333" text-anchor="end">MemRead</text>
+<text x="836" y="283.5" font-size="9.5" fill="#333" text-anchor="end">RegWrite</text>
+<text x="836" y="301.5" font-size="9.5" fill="#333" text-anchor="end">WBSel[1:0]</text>
+<text x="836" y="319.5" font-size="9.5" fill="#333" text-anchor="end">MemWrite</text>
+<text x="836" y="337.5" font-size="9.5" fill="#333" text-anchor="end">Jump</text>
+<text x="836" y="355.5" font-size="9.5" fill="#333" text-anchor="end">Branch</text>
+<text x="836" y="373.5" font-size="9.5" fill="#333" text-anchor="end">Jalr</text>
+<text x="836" y="391.5" font-size="9.5" fill="#333" text-anchor="end">ALUSrcB</text>
+<text x="836" y="409.5" font-size="9.5" fill="#333" text-anchor="end">ALUSrcA[1:0]</text>
+<text x="836" y="427.5" font-size="9.5" fill="#333" text-anchor="end">ALUOp[1:0]</text>
+<rect x="700" y="490" width="160" height="40" rx="3" fill="url(#g_blk)" stroke="#2f5597" stroke-width="1.4" filter="url(#sh)"/>
+<text x="780" y="514" font-size="12" font-weight="bold" fill="#1f3864" text-anchor="middle">Imm Gen</text>
+<rect x="700" y="640" width="180" height="180" rx="3" fill="url(#g_rf)" stroke="#2f5597" stroke-width="1.4" filter="url(#sh)"/>
+<text x="790" y="662" font-size="13" font-weight="bold" fill="#1f3864" text-anchor="middle">Register File</text>
+<text x="790" y="676" font-size="10" fill="#444" text-anchor="middle">32 x 32bit, x0≡0</text>
+<text x="704" y="668.5" font-size="9.5" fill="#333">ra1</text>
+<text x="704" y="698.5" font-size="9.5" fill="#333">ra2</text>
+<text x="704" y="743.5" font-size="9.5" fill="#333">wa</text>
+<text x="704" y="768.5" font-size="9.5" fill="#333">we</text>
+<text x="704" y="793.5" font-size="9.5" fill="#333">wd</text>
+<text x="876" y="668.5" font-size="9.5" fill="#333" text-anchor="end">rd1</text>
+<text x="876" y="768.5" font-size="9.5" fill="#333" text-anchor="end">rd2</text>
+<polygon points="1260,645 1290,655 1290,715 1260,725" fill="url(#g_mux)" stroke="#9c7a00" stroke-width="1.4" filter="url(#sh)"/>
+<text x="1277" y="689" font-size="11" font-weight="bold" fill="#7a5f00" text-anchor="middle"></text>
+<text x="1263" y="668.5" font-size="9.5" fill="#333">0</text>
+<text x="1263" y="688.5" font-size="9.5" fill="#333">1</text>
+<text x="1263" y="708.5" font-size="9.5" fill="#333">2</text>
+<polygon points="1320,745 1350,755 1350,815 1320,825" fill="url(#g_mux)" stroke="#9c7a00" stroke-width="1.4" filter="url(#sh)"/>
+<text x="1337" y="789" font-size="11" font-weight="bold" fill="#7a5f00" text-anchor="middle"></text>
+<text x="1323" y="768.5" font-size="9.5" fill="#333">0</text>
+<text x="1323" y="788.5" font-size="9.5" fill="#333">1</text>
+<text x="1323" y="808.5" font-size="9.5" fill="#333">2</text>
+<rect x="1260" y="880" width="210" height="70" rx="3" fill="url(#g_fwd)" stroke="#2e7d32" stroke-width="1.4" filter="url(#sh)"/>
+<text x="1365" y="914" font-size="13" font-weight="bold" fill="#1f3864" text-anchor="middle">Forwarding Unit</text>
+<text x="1365" y="928" font-size="10" fill="#444" text-anchor="middle">前递单元</text>
+<text x="1264" y="899.5" font-size="9.5" fill="#333">rs1</text>
+<text x="1264" y="917.5" font-size="9.5" fill="#333">rs2</text>
+<text x="1350" y="946" font-size="9.5" fill="#333" text-anchor="middle">EXrw</text>
+<text x="1385" y="946" font-size="9.5" fill="#333" text-anchor="middle">EXrd</text>
+<text x="1420" y="946" font-size="9.5" fill="#333" text-anchor="middle">WBrd</text>
+<text x="1455" y="946" font-size="9.5" fill="#333" text-anchor="middle">WBrw</text>
+<polygon points="1450,645 1480,655 1480,715 1450,725" fill="url(#g_mux)" stroke="#9c7a00" stroke-width="1.4" filter="url(#sh)"/>
+<text x="1467" y="689" font-size="11" font-weight="bold" fill="#7a5f00" text-anchor="middle"></text>
+<text x="1453" y="668.5" font-size="9.5" fill="#333">1</text>
+<text x="1453" y="688.5" font-size="9.5" fill="#333">0</text>
+<text x="1453" y="708.5" font-size="9.5" fill="#333">2</text>
+<polygon points="1510,745 1540,755 1540,815 1510,825" fill="url(#g_mux)" stroke="#9c7a00" stroke-width="1.4" filter="url(#sh)"/>
+<text x="1527" y="789" font-size="11" font-weight="bold" fill="#7a5f00" text-anchor="middle"></text>
+<text x="1513" y="768.5" font-size="9.5" fill="#333">1</text>
+<text x="1513" y="788.5" font-size="9.5" fill="#333">0</text>
+<polygon points="1600,630 1680,680 1680,780 1600,830 1600,746 1622.4,730 1600,714" fill="url(#g_alu)" stroke="#4e7a2a" stroke-width="1.4" filter="url(#sh)"/>
+<text x="1651.2" y="735" font-size="13" font-weight="bold" fill="#35541c" text-anchor="middle">ALU</text>
+<text x="1604" y="688.5" font-size="9.5" fill="#333">A</text>
+<text x="1604" y="788.5" font-size="9.5" fill="#333">B</text>
+<text x="1676" y="703.5" font-size="9.5" fill="#333" text-anchor="end">zero</text>
+<text x="1676" y="748.5" font-size="9.5" fill="#333" text-anchor="end">Y</text>
+<rect x="1560" y="398" width="140" height="64" rx="3" fill="url(#g_blk)" stroke="#2f5597" stroke-width="1.4" filter="url(#sh)"/>
+<text x="1648" y="422" font-size="12" font-weight="bold" fill="#1f3864" text-anchor="middle">ALU Decoder</text>
+<text x="1648" y="436" font-size="10" fill="#444" text-anchor="middle">ALU 控制译码</text>
+<text x="1564" y="427.5" font-size="9.5" fill="#333">ALUOp</text>
+<text x="1564" y="455.5" font-size="9.5" fill="#333">f7[5]</text>
+<text x="1600" y="458" font-size="9.5" fill="#333" text-anchor="middle">f3</text>
+<text x="1640" y="458" font-size="9.5" fill="#333" text-anchor="middle">ALUCtl</text>
+<polygon points="1720,495 1770,513.75 1770,551.25 1720,570 1720,538.5 1734,532.5 1720,526.5" fill="url(#g_adder)" stroke="#4e7a2a" stroke-width="1.4" filter="url(#sh)"/>
+<text x="1752" y="537.5" font-size="13" font-weight="bold" fill="#35541c" text-anchor="middle">+</text>
+<rect x="1720" y="730" width="100" height="30" rx="3" fill="url(#g_blk)" stroke="#2f5597" stroke-width="1.4" filter="url(#sh)"/>
+<text x="1770" y="749" font-size="11" font-weight="bold" fill="#1f3864" text-anchor="middle">&amp; ~1</text>
+<polygon points="1960,510 1990,520 1990,570 1960,580" fill="url(#g_mux)" stroke="#9c7a00" stroke-width="1.4" filter="url(#sh)"/>
+<text x="1977" y="549" font-size="11" font-weight="bold" fill="#7a5f00" text-anchor="middle"></text>
+<text x="1963" y="535.5" font-size="9.5" fill="#333">0</text>
+<text x="1963" y="563.5" font-size="9.5" fill="#333">1</text>
+<rect x="1860" y="316" width="140" height="44" rx="3" fill="url(#g_bru)" stroke="#c55a11" stroke-width="1.4" filter="url(#sh)"/>
+<text x="1930" y="343" font-size="12" font-weight="bold" fill="#1f3864" text-anchor="middle">Branch Unit</text>
+<text x="1864" y="337.5" font-size="9.5" fill="#333">Jump</text>
+<text x="1864" y="355.5" font-size="9.5" fill="#333">Br</text>
+<text x="1905" y="356" font-size="9.5" fill="#333" text-anchor="middle">f3</text>
+<text x="1950" y="356" font-size="9.5" fill="#333" text-anchor="middle">zero</text>
+<rect x="2230" y="740" width="150" height="160" rx="3" fill="url(#g_blk)" stroke="#2f5597" stroke-width="1.4" filter="url(#sh)"/>
+<text x="2305" y="800" font-size="13" font-weight="bold" fill="#1f3864" text-anchor="middle">Data Memory</text>
+<text x="2305" y="814" font-size="10" fill="#444" text-anchor="middle">DMEM (同步写, 组合读)</text>
+<text x="2234" y="803.5" font-size="9.5" fill="#333">addr</text>
+<text x="2234" y="863.5" font-size="9.5" fill="#333">wdata</text>
+<text x="2260" y="752" font-size="9.5" fill="#333" text-anchor="middle">f3</text>
+<text x="2300" y="752" font-size="9.5" fill="#333" text-anchor="middle">we</text>
+<text x="2340" y="752" font-size="9.5" fill="#333" text-anchor="middle">re</text>
+<text x="2376" y="843.5" font-size="9.5" fill="#333" text-anchor="end">rdata</text>
+<polygon points="2150,640 2180,650 2180,710 2150,720" fill="url(#g_mux)" stroke="#9c7a00" stroke-width="1.4" filter="url(#sh)"/>
+<text x="2167" y="684" font-size="11" font-weight="bold" fill="#7a5f00" text-anchor="middle"></text>
+<text x="2153" y="663.5" font-size="9.5" fill="#333">1</text>
+<text x="2153" y="703.5" font-size="9.5" fill="#333">0</text>
+<polygon points="2620,570 2650,580 2650,850 2620,860" fill="url(#g_mux)" stroke="#9c7a00" stroke-width="1.4" filter="url(#sh)"/>
+<text x="2637" y="719" font-size="11" font-weight="bold" fill="#7a5f00" text-anchor="middle">MUX</text>
+<text x="2623" y="593.5" font-size="9.5" fill="#333">2</text>
+<text x="2623" y="803.5" font-size="9.5" fill="#333">0</text>
+<text x="2623" y="843.5" font-size="9.5" fill="#333">1</text>
+<path d="M220.0,420.0 L245.0,420.0 L245.0,555.0 L385.0,555.0 A5,5 0 0 1 395.0,555.0 L470.0,555.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M245.0,555.0 L245.0,615.0 L290.0,615.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M245.0,615.0 L245.0,720.0 L250.0,720.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M265.0,645.0 L290.0,645.0" fill="none" stroke="#444" stroke-width="1.0" stroke-linejoin="round"/>
+<path d="M340.0,630.0 L390.0,630.0 L390.0,590.0 L470.0,590.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M390.0,590.0 L390.0,350.0 L185.0,350.0 A5,5 0 0 0 175.0,350.0 L80.0,350.0 A5,5 0 0 0 70.0,350.0 L40.0,350.0 L40.0,400.0 L60.0,400.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M90.0,420.0 L140.0,420.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M410.0,745.0 L440.0,745.0 L440.0,640.0 L470.0,640.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1990.0,546.0 L2025.0,546.0 L2025.0,98.0 L25.0,98.0 L25.0,440.0 L60.0,440.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M2000.0,343.0 L2010.0,343.0 L2010.0,108.0 L75.0,108.0 L75.0,385.0" fill="none" stroke="#c00000" stroke-width="1.3" stroke-linejoin="round" stroke-dasharray="7 3" marker-end="url(#ar_haz)"/>
+<path d="M800.0,108.0 L800.0,118.0" fill="none" stroke="#c00000" stroke-width="1.3" stroke-linejoin="round" stroke-dasharray="7 3" marker-end="url(#ar_haz)"/>
+<path d="M640.0,132.0 L180.0,132.0 L180.0,390.0" fill="none" stroke="#c00000" stroke-width="1.3" stroke-linejoin="round" stroke-dasharray="7 3" marker-end="url(#ar_haz)"/>
+<path d="M640.0,148.0 L490.0,148.0 L490.0,220.0" fill="none" stroke="#c00000" stroke-width="1.3" stroke-linejoin="round" stroke-dasharray="7 3" marker-end="url(#ar_haz)"/>
+<path d="M640.0,164.0 L520.0,164.0 L520.0,220.0" fill="none" stroke="#c00000" stroke-width="1.3" stroke-linejoin="round" stroke-dasharray="7 3" marker-end="url(#ar_haz)"/>
+<path d="M940.0,172.0 L1165.0,172.0 L1165.0,220.0" fill="none" stroke="#c00000" stroke-width="1.3" stroke-linejoin="round" stroke-dasharray="7 3" marker-end="url(#ar_haz)"/>
+<path d="M1225.0,238.0 L1225.0,136.0 L940.0,136.0" fill="none" stroke="#c00000" stroke-width="1.3" stroke-linejoin="round" stroke-dasharray="7 3" marker-end="url(#ar_haz)"/>
+<path d="M1210.0,262.0 L1210.0,152.0 L940.0,152.0" fill="none" stroke="#c00000" stroke-width="1.3" stroke-linejoin="round" stroke-dasharray="7 3" marker-end="url(#ar_haz)"/>
+<path d="M540.0,640.0 L600.0,640.0 L600.0,196.0 L680.0,196.0 L680.0,184.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M600.0,208.0 L710.0,208.0 L710.0,184.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M600.0,238.0 L1130.0,238.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M600.0,340.0 L660.0,340.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M600.0,452.0 L1130.0,452.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M600.0,476.0 L1130.0,476.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M600.0,510.0 L700.0,510.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M600.0,640.0 L600.0,914.0 L1130.0,914.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M600.0,896.0 L1130.0,896.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M600.0,665.0 L700.0,665.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M600.0,695.0 L700.0,695.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M840.0,262.0 L1130.0,262.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M840.0,280.0 L1130.0,280.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M840.0,298.0 L1130.0,298.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M840.0,316.0 L1130.0,316.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M840.0,334.0 L1130.0,334.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M840.0,352.0 L1130.0,352.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M840.0,370.0 L1130.0,370.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M840.0,388.0 L1130.0,388.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M840.0,406.0 L1130.0,406.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M840.0,424.0 L1130.0,424.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M860.0,510.0 L1130.0,510.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M540.0,555.0 L595.0,555.0 A5,5 0 0 1 605.0,555.0 L1130.0,555.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M540.0,590.0 L595.0,590.0 A5,5 0 0 1 605.0,590.0 L1130.0,590.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M880.0,665.0 L1130.0,665.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M880.0,765.0 L1130.0,765.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M2650.0,715.0 L2700.0,715.0 L2700.0,1000.0 L2420.0,1000.0 A5,5 0 0 0 2410.0,1000.0 L2405.0,1000.0 A5,5 0 0 0 2395.0,1000.0 L1460.0,1000.0 A5,5 0 0 0 1450.0,1000.0 L1425.0,1000.0 A5,5 0 0 0 1415.0,1000.0 L1390.0,1000.0 A5,5 0 0 0 1380.0,1000.0 L1355.0,1000.0 A5,5 0 0 0 1345.0,1000.0 L585.0,1000.0 L585.0,790.0 L595.0,790.0 A5,5 0 0 1 605.0,790.0 L700.0,790.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M2530.0,280.0 L2720.0,280.0 L2720.0,1015.0 L2420.0,1015.0 A5,5 0 0 0 2410.0,1015.0 L2405.0,1015.0 A5,5 0 0 0 2395.0,1015.0 L1425.0,1015.0 A5,5 0 0 0 1415.0,1015.0 L1390.0,1015.0 A5,5 0 0 0 1380.0,1015.0 L1355.0,1015.0 A5,5 0 0 0 1345.0,1015.0 L570.0,1015.0 L570.0,765.0 L595.0,765.0 A5,5 0 0 1 605.0,765.0 L700.0,765.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M2530.0,238.0 L2740.0,238.0 L2740.0,1030.0 L2420.0,1030.0 A5,5 0 0 0 2410.0,1030.0 L2405.0,1030.0 A5,5 0 0 0 2395.0,1030.0 L1390.0,1030.0 A5,5 0 0 0 1380.0,1030.0 L1355.0,1030.0 A5,5 0 0 0 1345.0,1030.0 L555.0,1030.0 L555.0,740.0 L595.0,740.0 A5,5 0 0 1 605.0,740.0 L700.0,740.0" fill="none" stroke="#7030a0" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#ar_idx)"/>
+<path d="M1200.0,262.0 L2005.0,262.0 A5,5 0 0 1 2015.0,262.0 L2020.0,262.0 A5,5 0 0 1 2030.0,262.0 L2040.0,262.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M1200.0,280.0 L2005.0,280.0 A5,5 0 0 1 2015.0,280.0 L2020.0,280.0 A5,5 0 0 1 2030.0,280.0 L2040.0,280.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M1200.0,298.0 L2005.0,298.0 A5,5 0 0 1 2015.0,298.0 L2020.0,298.0 A5,5 0 0 1 2030.0,298.0 L2040.0,298.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M1200.0,316.0 L2005.0,316.0 A5,5 0 0 1 2015.0,316.0 L2020.0,316.0 A5,5 0 0 1 2030.0,316.0 L2040.0,316.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M1200.0,334.0 L1860.0,334.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M1200.0,352.0 L1860.0,352.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M1200.0,370.0 L1900.0,370.0 A5,5 0 0 1 1910.0,370.0 L1945.0,370.0 A5,5 0 0 1 1955.0,370.0 L1975.0,370.0 L1975.0,515.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M1200.0,388.0 L1525.0,388.0 L1525.0,750.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M1200.0,406.0 L1465.0,406.0 L1465.0,650.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M1200.0,424.0 L1460.0,424.0 A5,5 0 0 1 1470.0,424.0 L1520.0,424.0 A5,5 0 0 1 1530.0,424.0 L1560.0,424.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M1200.0,238.0 L1205.0,238.0 A5,5 0 0 1 1215.0,238.0 L2005.0,238.0 A5,5 0 0 1 2015.0,238.0 L2020.0,238.0 A5,5 0 0 1 2030.0,238.0 L2040.0,238.0" fill="none" stroke="#7030a0" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#ar_idx)"/>
+<path d="M1200.0,452.0 L1460.0,452.0 A5,5 0 0 1 1470.0,452.0 L1520.0,452.0 A5,5 0 0 1 1530.0,452.0 L1560.0,452.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1200.0,476.0 L1460.0,476.0 A5,5 0 0 1 1470.0,476.0 L1520.0,476.0 A5,5 0 0 1 1530.0,476.0 L1635.0,476.0 A5,5 0 0 1 1645.0,476.0 L1945.0,476.0 A5,5 0 0 1 1955.0,476.0 L1970.0,476.0 A5,5 0 0 1 1980.0,476.0 L2020.0,476.0 A5,5 0 0 1 2030.0,476.0 L2040.0,476.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1600.0,476.0 L1600.0,462.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1905.0,476.0 L1905.0,360.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1640.0,462.0 L1640.0,655.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M1200.0,510.0 L1460.0,510.0 A5,5 0 0 1 1470.0,510.0 L1520.0,510.0 A5,5 0 0 1 1530.0,510.0 L1635.0,510.0 A5,5 0 0 1 1645.0,510.0 L1720.0,510.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1495.0,510.0 L1495.0,765.0 L1510.0,765.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1200.0,555.0 L1460.0,555.0 A5,5 0 0 1 1470.0,555.0 L1490.0,555.0 A5,5 0 0 1 1500.0,555.0 L1520.0,555.0 A5,5 0 0 1 1530.0,555.0 L1635.0,555.0 A5,5 0 0 1 1645.0,555.0 L1720.0,555.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1435.0,555.0 L1435.0,665.0 L1450.0,665.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1438.0,705.0 L1450.0,705.0" fill="none" stroke="#444" stroke-width="1.0" stroke-linejoin="round"/>
+<path d="M1200.0,590.0 L1430.0,590.0 A5,5 0 0 1 1440.0,590.0 L1460.0,590.0 A5,5 0 0 1 1470.0,590.0 L1490.0,590.0 A5,5 0 0 1 1500.0,590.0 L1520.0,590.0 A5,5 0 0 1 1530.0,590.0 L1635.0,590.0 A5,5 0 0 1 1645.0,590.0 L1835.0,590.0 A5,5 0 0 1 1845.0,590.0 L1945.0,590.0 A5,5 0 0 1 1955.0,590.0 L2040.0,590.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1200.0,665.0 L1260.0,665.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1200.0,765.0 L1227.0,765.0 A5,5 0 0 1 1237.0,765.0 L1241.0,765.0 A5,5 0 0 1 1251.0,765.0 L1270.0,765.0 A5,5 0 0 1 1280.0,765.0 L1320.0,765.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1200.0,896.0 L1227.0,896.0 A5,5 0 0 1 1237.0,896.0 L1241.0,896.0 A5,5 0 0 1 1251.0,896.0 L1260.0,896.0" fill="none" stroke="#7030a0" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#ar_idx)"/>
+<path d="M1200.0,914.0 L1227.0,914.0 A5,5 0 0 1 1237.0,914.0 L1241.0,914.0 A5,5 0 0 1 1251.0,914.0 L1260.0,914.0" fill="none" stroke="#7030a0" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#ar_idx)"/>
+<path d="M1275.0,880.0 L1275.0,720.0" fill="none" stroke="#2e7d32" stroke-width="1.4" stroke-linejoin="round" stroke-dasharray="7 3" marker-end="url(#ar_fwd)"/>
+<path d="M1335.0,880.0 L1335.0,820.0" fill="none" stroke="#2e7d32" stroke-width="1.4" stroke-linejoin="round" stroke-dasharray="7 3" marker-end="url(#ar_fwd)"/>
+<path d="M1290.0,685.0 L1450.0,685.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1350.0,785.0 L1510.0,785.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1430.0,785.0 L1430.0,860.0 L2040.0,860.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1480.0,685.0 L1490.0,685.0 A5,5 0 0 1 1500.0,685.0 L1520.0,685.0 A5,5 0 0 1 1530.0,685.0 L1600.0,685.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1540.0,785.0 L1600.0,785.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1680.0,745.0 L1720.0,745.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1700.0,745.0 L1700.0,800.0 L2040.0,800.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1680.0,700.0 L1835.0,700.0 A5,5 0 0 1 1845.0,700.0 L1950.0,700.0 L1950.0,360.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M1770.0,532.0 L1945.0,532.0 A5,5 0 0 1 1955.0,532.0 L1960.0,532.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1820.0,745.0 L1840.0,745.0 L1840.0,560.0 L1945.0,560.0 A5,5 0 0 1 1955.0,560.0 L1960.0,560.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1232.0,1000.0 L1232.0,685.0 L1260.0,685.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1232.0,785.0 L1241.0,785.0 A5,5 0 0 1 1251.0,785.0 L1270.0,785.0 A5,5 0 0 1 1280.0,785.0 L1320.0,785.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M2180.0,680.0 L2200.0,680.0 L2200.0,972.0 L1460.0,972.0 A5,5 0 0 0 1450.0,972.0 L1425.0,972.0 A5,5 0 0 0 1415.0,972.0 L1390.0,972.0 A5,5 0 0 0 1380.0,972.0 L1355.0,972.0 A5,5 0 0 0 1345.0,972.0 L1246.0,972.0 L1246.0,705.0 L1260.0,705.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M1246.0,805.0 L1270.0,805.0 A5,5 0 0 1 1280.0,805.0 L1320.0,805.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M2110.0,262.0 L2340.0,262.0 L2340.0,740.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M2110.0,280.0 L2335.0,280.0 A5,5 0 0 1 2345.0,280.0 L2395.0,280.0 A5,5 0 0 1 2405.0,280.0 L2460.0,280.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M2110.0,298.0 L2335.0,298.0 A5,5 0 0 1 2345.0,298.0 L2395.0,298.0 A5,5 0 0 1 2405.0,298.0 L2410.0,298.0 A5,5 0 0 1 2420.0,298.0 L2460.0,298.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M2165.0,298.0 L2165.0,645.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M2110.0,316.0 L2160.0,316.0 A5,5 0 0 1 2170.0,316.0 L2300.0,316.0 L2300.0,740.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M2110.0,238.0 L2460.0,238.0" fill="none" stroke="#7030a0" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#ar_idx)"/>
+<path d="M2110.0,476.0 L2160.0,476.0 A5,5 0 0 1 2170.0,476.0 L2260.0,476.0 L2260.0,740.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M2110.0,590.0 L2160.0,590.0 A5,5 0 0 1 2170.0,590.0 L2255.0,590.0 A5,5 0 0 1 2265.0,590.0 L2295.0,590.0 A5,5 0 0 1 2305.0,590.0 L2335.0,590.0 A5,5 0 0 1 2345.0,590.0 L2395.0,590.0 A5,5 0 0 1 2405.0,590.0 L2410.0,590.0 A5,5 0 0 1 2420.0,590.0 L2460.0,590.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M2135.0,590.0 L2135.0,660.0 L2150.0,660.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M2110.0,800.0 L2195.0,800.0 A5,5 0 0 1 2205.0,800.0 L2230.0,800.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M2125.0,800.0 L2125.0,700.0 L2150.0,700.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M2212.0,800.0 L2212.0,925.0 L2395.0,925.0 A5,5 0 0 1 2405.0,925.0 L2410.0,925.0 A5,5 0 0 1 2420.0,925.0 L2440.0,925.0 L2440.0,800.0 L2460.0,800.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M2110.0,860.0 L2195.0,860.0 A5,5 0 0 1 2205.0,860.0 L2207.0,860.0 A5,5 0 0 1 2217.0,860.0 L2230.0,860.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M2380.0,840.0 L2395.0,840.0 A5,5 0 0 1 2405.0,840.0 L2410.0,840.0 A5,5 0 0 1 2420.0,840.0 L2435.0,840.0 A5,5 0 0 1 2445.0,840.0 L2460.0,840.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M2400.0,238.0 L2400.0,1045.0 L1385.0,1045.0 L1385.0,950.0" fill="none" stroke="#7030a0" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#ar_idx)"/>
+<path d="M2415.0,280.0 L2415.0,1060.0 L1350.0,1060.0 L1350.0,950.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M1420.0,1030.0 L1420.0,950.0" fill="none" stroke="#7030a0" stroke-width="1.4" stroke-linejoin="round" marker-end="url(#ar_idx)"/>
+<path d="M1455.0,1015.0 L1455.0,950.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M2530.0,298.0 L2635.0,298.0 L2635.0,574.0" fill="none" stroke="#c55a11" stroke-width="1.2" stroke-linejoin="round" marker-end="url(#ar_ctrl)"/>
+<path d="M2530.0,590.0 L2620.0,590.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M2530.0,800.0 L2620.0,800.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<path d="M2530.0,840.0 L2620.0,840.0" fill="none" stroke="#1f3a68" stroke-width="1.6" stroke-linejoin="round" marker-end="url(#ar_data)"/>
+<circle cx="245" cy="555" r="3.3" fill="#1f3a68"/>
+<circle cx="245" cy="615" r="3.3" fill="#1f3a68"/>
+<circle cx="390" cy="590" r="3.3" fill="#1f3a68"/>
+<circle cx="800" cy="108" r="3.3" fill="#c00000"/>
+<circle cx="600" cy="208" r="3.3" fill="#1f3a68"/>
+<circle cx="600" cy="238" r="3.3" fill="#1f3a68"/>
+<circle cx="600" cy="340" r="3.3" fill="#1f3a68"/>
+<circle cx="600" cy="452" r="3.3" fill="#1f3a68"/>
+<circle cx="600" cy="476" r="3.3" fill="#1f3a68"/>
+<circle cx="600" cy="510" r="3.3" fill="#1f3a68"/>
+<circle cx="600" cy="640" r="3.3" fill="#1f3a68"/>
+<circle cx="600" cy="896" r="3.3" fill="#1f3a68"/>
+<circle cx="600" cy="665" r="3.3" fill="#1f3a68"/>
+<circle cx="600" cy="695" r="3.3" fill="#1f3a68"/>
+<circle cx="1600" cy="476" r="3.3" fill="#1f3a68"/>
+<circle cx="1905" cy="476" r="3.3" fill="#1f3a68"/>
+<circle cx="1495" cy="510" r="3.3" fill="#1f3a68"/>
+<circle cx="1435" cy="555" r="3.3" fill="#1f3a68"/>
+<circle cx="1430" cy="785" r="3.3" fill="#1f3a68"/>
+<circle cx="1700" cy="745" r="3.3" fill="#1f3a68"/>
+<circle cx="1232" cy="1000" r="3.3" fill="#1f3a68"/>
+<circle cx="1232" cy="785" r="3.3" fill="#1f3a68"/>
+<circle cx="1246" cy="805" r="3.3" fill="#1f3a68"/>
+<circle cx="2165" cy="298" r="3.3" fill="#c55a11"/>
+<circle cx="2135" cy="590" r="3.3" fill="#1f3a68"/>
+<circle cx="2125" cy="800" r="3.3" fill="#1f3a68"/>
+<circle cx="2212" cy="800" r="3.3" fill="#1f3a68"/>
+<circle cx="2400" cy="238" r="3.3" fill="#7030a0"/>
+<circle cx="2415" cy="280" r="3.3" fill="#c55a11"/>
+<circle cx="1420" cy="1030" r="3.3" fill="#7030a0"/>
+<circle cx="1455" cy="1015" r="3.3" fill="#c55a11"/>
+<text x="300" y="550" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">pc_f[31:0]</text>
+<text x="400" y="585" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">pc4_f</text>
+<text x="94" y="413" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">pc_next</text>
+<text x="413" y="760" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">instr_f</text>
+<text x="1100" y="93" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">pc_target[31:0]  (EX → IF 重定向地址)</text>
+<text x="1100" y="120" font-size="10" fill="#c00000" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">pc_src  (EX: 分支成立/跳转)</text>
+<text x="250" y="128" font-size="10" fill="#c00000" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">PCWrite = ~stall</text>
+<text x="515" y="144" font-size="10" fill="#c00000" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">IF_ID_en = ~stall</text>
+<text x="527" y="177" font-size="10" fill="#c00000" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">IF_ID_flush = pc_src</text>
+<text x="955" y="186" font-size="10" fill="#c00000" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">ID_EX_flush = stall | pc_src</text>
+<text x="1045" y="132" font-size="10" fill="#c00000" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">ID_EX.rd</text>
+<text x="1045" y="148" font-size="10" fill="#c00000" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">ID_EX.MemRead</text>
+<text x="543" y="654" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">instr_d</text>
+<text x="870" y="233" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">rd = instr[11:7]</text>
+<text x="605" y="335" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">[6:0]</text>
+<text x="870" y="447" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">funct7[5] = instr[30]</text>
+<text x="870" y="471" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">funct3 = instr[14:12]</text>
+<text x="640" y="505" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">[31:0]</text>
+<text x="870" y="909" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">rs2 = instr[24:20]</text>
+<text x="870" y="891" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">rs1 = instr[19:15]</text>
+<text x="640" y="660" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">[19:15]</text>
+<text x="640" y="690" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">[24:20]</text>
+<text x="880" y="505" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">imm_d[31:0]</text>
+<text x="1060" y="550" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">pc_d</text>
+<text x="1060" y="585" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">pc4_d</text>
+<text x="900" y="660" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">rs1_data_d[31:0]</text>
+<text x="900" y="760" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">rs2_data_d[31:0]</text>
+<text x="1900" y="995" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">wb_data[31:0]  (WB → 寄存器堆写数据 / 前递)</text>
+<text x="1900" y="1011" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">MEM_WB.RegWrite</text>
+<text x="1900" y="1042" font-size="10" fill="#7030a0" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">MEM_WB.rd[4:0]</text>
+<text x="1250" y="276" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">RegWrite_e</text>
+<text x="1250" y="294" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">WBSel[1:0]_e</text>
+<text x="1250" y="312" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">MemWrite_e</text>
+<text x="1250" y="330" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">Jump_e</text>
+<text x="1250" y="348" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">Branch_e</text>
+<text x="1250" y="366" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">Jalr_e</text>
+<text x="1250" y="384" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">ALUSrcB_e</text>
+<text x="1250" y="402" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">ALUSrcA_e[1:0]</text>
+<text x="1250" y="420" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">ALUOp_e[1:0]</text>
+<text x="1250" y="234" font-size="10" fill="#7030a0" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">rd_e[4:0]</text>
+<text x="1250" y="448" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">funct7[5]_e</text>
+<text x="1250" y="472" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">funct3_e[2:0]</text>
+<text x="1645" y="500" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">ALUCtl[3:0]</text>
+<text x="1250" y="506" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">imm_e[31:0]</text>
+<text x="1250" y="551" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">pc_e[31:0]</text>
+<text x="1250" y="586" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">pc4_e[31:0]</text>
+<text x="1280" y="739" font-size="10" fill="#2e7d32" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">ForwardA[1:0]</text>
+<text x="1340" y="872" font-size="10" fill="#2e7d32" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">ForwardB[1:0]</text>
+<text x="1375" y="680" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">rs1_fwd</text>
+<text x="1420" y="780" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">rs2_fwd</text>
+<text x="1760" y="855" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">store_data (rs2_fwd)</text>
+<text x="1540" y="680" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">opA</text>
+<text x="1555" y="780" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">opB</text>
+<text x="1760" y="795" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">alu_result[31:0]</text>
+<text x="1690" y="695" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">zero</text>
+<text x="1800" y="527" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">pc_e + imm_e</text>
+<text x="1845" y="577" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">(rs1+imm)&amp;~1</text>
+<text x="1730" y="968" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">exmem_fwd[31:0] (EX/MEM → 前递)</text>
+<text x="2180" y="258" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">MemRead_m</text>
+<text x="2180" y="276" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">RegWrite_m</text>
+<text x="2180" y="294" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">WBSel_m[1:0]</text>
+<text x="2170" y="620" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">WBSel_m[1]</text>
+<text x="2180" y="312" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">MemWrite_m</text>
+<text x="2180" y="234" font-size="10" fill="#7030a0" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">rd_m[4:0]</text>
+<text x="2180" y="472" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">funct3_m</text>
+<text x="2300" y="586" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">pc4_m</text>
+<text x="2115" y="813" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">alu_result_m</text>
+<text x="2115" y="873" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">store_data_m</text>
+<text x="1900" y="1057" font-size="10" fill="#7030a0" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">EX_MEM.rd[4:0]</text>
+<text x="1900" y="1072" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">EX_MEM.RegWrite</text>
+<text x="2545" y="294" font-size="10" fill="#c55a11" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">WBSel_w[1:0]</text>
+<text x="2545" y="586" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">pc4_w</text>
+<text x="2540" y="796" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">alu_result_w</text>
+<text x="2545" y="836" font-size="10" fill="#1f3a68" text-anchor="start" stroke="#fff" stroke-width="3" paint-order="stroke" stroke-opacity="0.9">rdata_w</text>
+<text x="262" y="649" font-size="10" fill="#333" text-anchor="end" font-weight="normal">4</text>
+<text x="718" y="204" font-size="9" fill="#555" text-anchor="start" font-weight="normal">IF_ID.rs1 = instr[19:15],  IF_ID.rs2 = instr[24:20]</text>
+<text x="1250" y="258" font-size="10" fill="#c55a11" text-anchor="start" font-weight="normal">MemRead_e</text>
+<text x="1433" y="709" font-size="10" fill="#333" text-anchor="end" font-weight="normal">0</text>
+<rect x="20" y="1100" width="470" height="330" rx="4" fill="#ffffff" stroke="#8ea9c8" stroke-width="1.2" filter="url(#sh)"/>
+<rect x="20" y="1100" width="470" height="26" rx="4" fill="#dbe7f5" stroke="#8ea9c8" stroke-width="1.2"/>
+<text x="30" y="1118" font-size="14" font-weight="bold" fill="#1f3864">图例 / 约定</text>
+<line x1="36" y1="1148" x2="110" y2="1148" stroke="#1f3a68" stroke-width="2.0" marker-end="url(#ar_data)"/>
+<text x="122" y="1152" font-size="11.5" fill="#222">数据通路 (32 bit 为主)</text>
+<line x1="36" y1="1172" x2="110" y2="1172" stroke="#7030a0" stroke-width="1.7999999999999998" marker-end="url(#ar_idx)"/>
+<text x="122" y="1176" font-size="11.5" fill="#222">寄存器号 rs1/rs2/rd [4:0]</text>
+<line x1="36" y1="1196" x2="110" y2="1196" stroke="#c55a11" stroke-width="1.6" marker-end="url(#ar_ctrl)"/>
+<text x="122" y="1200" font-size="11.5" fill="#222">控制信号 (主译码/流水线控制)</text>
+<line x1="36" y1="1220" x2="110" y2="1220" stroke="#c00000" stroke-width="1.7000000000000002" stroke-dasharray="7 3" marker-end="url(#ar_haz)"/>
+<text x="122" y="1224" font-size="11.5" fill="#222">冒险检测输出 (stall / flush / 重定向)</text>
+<line x1="36" y1="1244" x2="110" y2="1244" stroke="#2e7d32" stroke-width="1.7999999999999998" stroke-dasharray="7 3" marker-end="url(#ar_fwd)"/>
+<text x="122" y="1248" font-size="11.5" fill="#222">前递选择 ForwardA/B</text>
+<line x1="36" y1="1268" x2="110" y2="1268" stroke="#1f3a68" stroke-width="1.6"/><circle cx="73" cy="1268" r="3.3" fill="#1f3a68"/><line x1="73" y1="1268" x2="73" y2="1282" stroke="#1f3a68" stroke-width="1.6"/>
+<text x="122" y="1272" font-size="11.5" fill="#222">实心圆点 = 同一信号分叉 (电气连接)</text>
+<path d="M36,1294 L68,1294 A5,5 0 0 1 78,1294 L110,1294" fill="none" stroke="#1f3a68" stroke-width="1.6"/><line x1="73" y1="1282" x2="73" y2="1306" stroke="#c55a11" stroke-width="1.2"/>
+<text x="122" y="1298" font-size="11.5" fill="#222">跨线弧 (line jump) = 交叉但不相连</text>
+<text x="36" y="1326" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">信号命名: &lt;名&gt;_&lt;级&gt;  f=IF d=ID e=EX m=MEM w=WB</text>
+<text x="36" y="1343" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">流水线寄存器内每一行 = 一个字段 (同一 y 坐标直通)</text>
+<text x="36" y="1360" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">△ = posedge clk;  所有寄存器同步复位 rst</text>
+<text x="36" y="1377" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">多路选择器端口旁的数字 = 选择信号取值</text>
+<text x="36" y="1394" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">寄存器堆: 写优先旁路, 读地址 == 写地址时直接输出 wd</text>
+<rect x="510" y="1100" width="800" height="330" rx="4" fill="#ffffff" stroke="#8ea9c8" stroke-width="1.2" filter="url(#sh)"/>
+<rect x="510" y="1100" width="800" height="26" rx="4" fill="#dbe7f5" stroke="#8ea9c8" stroke-width="1.2"/>
+<text x="520" y="1118" font-size="14" font-weight="bold" fill="#1f3864">Main Control 真值表 (ID 级, 输入 opcode = instr[6:0])</text>
+<rect x="522" y="1138" width="746" height="21" fill="#eef3fa"/>
+<text x="557" y="1153.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">类型</text>
+<text x="628" y="1153.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">opcode</text>
+<text x="694" y="1153.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">RegWrite</text>
+<text x="750" y="1153.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">WBSel</text>
+<text x="807" y="1153.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">MemRead</text>
+<text x="870" y="1153.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">MemWrite</text>
+<text x="929" y="1153.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">Branch</text>
+<text x="978" y="1153.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">Jump</text>
+<text x="1020" y="1153.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">Jalr</text>
+<text x="1072" y="1153.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">ALUSrcA</text>
+<text x="1135" y="1153.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">ALUSrcB</text>
+<text x="1194" y="1153.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">ALUOp</text>
+<text x="1245" y="1153.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">Imm</text>
+<text x="557" y="1174.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">R-type</text>
+<text x="628" y="1174.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0110011</text>
+<text x="694" y="1174.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="750" y="1174.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="807" y="1174.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="870" y="1174.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="929" y="1174.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="978" y="1174.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1020" y="1174.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1072" y="1174.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="1135" y="1174.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1194" y="1174.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">10</text>
+<text x="1245" y="1174.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">-</text>
+<rect x="522" y="1180" width="746" height="21" fill="#f8fafc"/>
+<text x="557" y="1195.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">I-ALU</text>
+<text x="628" y="1195.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0010011</text>
+<text x="694" y="1195.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="750" y="1195.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="807" y="1195.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="870" y="1195.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="929" y="1195.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="978" y="1195.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1020" y="1195.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1072" y="1195.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="1135" y="1195.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="1194" y="1195.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">11</text>
+<text x="1245" y="1195.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">I</text>
+<text x="557" y="1216.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">LOAD</text>
+<text x="628" y="1216.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0000011</text>
+<text x="694" y="1216.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="750" y="1216.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">01</text>
+<text x="807" y="1216.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="870" y="1216.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="929" y="1216.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="978" y="1216.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1020" y="1216.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1072" y="1216.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="1135" y="1216.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="1194" y="1216.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="1245" y="1216.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">I</text>
+<rect x="522" y="1222" width="746" height="21" fill="#f8fafc"/>
+<text x="557" y="1237.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">STORE</text>
+<text x="628" y="1237.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0100011</text>
+<text x="694" y="1237.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="750" y="1237.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="807" y="1237.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="870" y="1237.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="929" y="1237.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="978" y="1237.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1020" y="1237.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1072" y="1237.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="1135" y="1237.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="1194" y="1237.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="1245" y="1237.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">S</text>
+<text x="557" y="1258.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">BRANCH</text>
+<text x="628" y="1258.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1100011</text>
+<text x="694" y="1258.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="750" y="1258.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="807" y="1258.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="870" y="1258.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="929" y="1258.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="978" y="1258.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1020" y="1258.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1072" y="1258.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="1135" y="1258.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1194" y="1258.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">01</text>
+<text x="1245" y="1258.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">B</text>
+<rect x="522" y="1264" width="746" height="21" fill="#f8fafc"/>
+<text x="557" y="1279.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">JAL</text>
+<text x="628" y="1279.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1101111</text>
+<text x="694" y="1279.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="750" y="1279.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">10</text>
+<text x="807" y="1279.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="870" y="1279.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="929" y="1279.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="978" y="1279.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="1020" y="1279.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1072" y="1279.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="1135" y="1279.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1194" y="1279.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="1245" y="1279.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">J</text>
+<text x="557" y="1300.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">JALR</text>
+<text x="628" y="1300.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1100111</text>
+<text x="694" y="1300.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="750" y="1300.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">10</text>
+<text x="807" y="1300.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="870" y="1300.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="929" y="1300.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="978" y="1300.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="1020" y="1300.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="1072" y="1300.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="1135" y="1300.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="1194" y="1300.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="1245" y="1300.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">I</text>
+<rect x="522" y="1306" width="746" height="21" fill="#f8fafc"/>
+<text x="557" y="1321.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">LUI</text>
+<text x="628" y="1321.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0110111</text>
+<text x="694" y="1321.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="750" y="1321.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="807" y="1321.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="870" y="1321.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="929" y="1321.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="978" y="1321.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1020" y="1321.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1072" y="1321.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">10</text>
+<text x="1135" y="1321.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="1194" y="1321.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="1245" y="1321.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">U</text>
+<text x="557" y="1342.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">AUIPC</text>
+<text x="628" y="1342.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0010111</text>
+<text x="694" y="1342.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="750" y="1342.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="807" y="1342.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="870" y="1342.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="929" y="1342.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="978" y="1342.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1020" y="1342.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1072" y="1342.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">01</text>
+<text x="1135" y="1342.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="1194" y="1342.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="1245" y="1342.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">U</text>
+<rect x="522" y="1348" width="746" height="21" fill="#f8fafc"/>
+<text x="557" y="1363.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">其他/气泡</text>
+<text x="628" y="1363.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">-</text>
+<text x="694" y="1363.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="750" y="1363.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="807" y="1363.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="870" y="1363.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="929" y="1363.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="978" y="1363.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1020" y="1363.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1072" y="1363.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="1135" y="1363.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1194" y="1363.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="1245" y="1363.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">-</text>
+<line x1="522" y1="1138" x2="1268" y2="1138" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="522" y1="1159" x2="1268" y2="1159" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="522" y1="1180" x2="1268" y2="1180" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="522" y1="1201" x2="1268" y2="1201" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="522" y1="1222" x2="1268" y2="1222" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="522" y1="1243" x2="1268" y2="1243" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="522" y1="1264" x2="1268" y2="1264" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="522" y1="1285" x2="1268" y2="1285" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="522" y1="1306" x2="1268" y2="1306" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="522" y1="1327" x2="1268" y2="1327" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="522" y1="1348" x2="1268" y2="1348" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="522" y1="1369" x2="1268" y2="1369" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="522" y1="1138" x2="522" y2="1369" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="592" y1="1138" x2="592" y2="1369" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="664" y1="1138" x2="664" y2="1369" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="724" y1="1138" x2="724" y2="1369" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="776" y1="1138" x2="776" y2="1369" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="838" y1="1138" x2="838" y2="1369" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="902" y1="1138" x2="902" y2="1369" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="956" y1="1138" x2="956" y2="1369" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1000" y1="1138" x2="1000" y2="1369" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1040" y1="1138" x2="1040" y2="1369" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1104" y1="1138" x2="1104" y2="1369" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1166" y1="1138" x2="1166" y2="1369" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1222" y1="1138" x2="1222" y2="1369" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1268" y1="1138" x2="1268" y2="1369" stroke="#b8c6d8" stroke-width="0.8"/>
+<text x="522" y="1385" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">JAL 的跳转目标由 EX 级加法器 pc_e+imm_e 计算, ALU 空闲;  JALR 目标 = (rs1+imm)&amp;~1 由 ALU 计算。</text>
+<text x="522" y="1402" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">LUI: 0 + imm;  AUIPC: pc + imm;  BRANCH: ALU 做比较 (SUB/SLT/SLTU), 结果看 zero。</text>
+<rect x="1330" y="1100" width="340" height="400" rx="4" fill="#ffffff" stroke="#8ea9c8" stroke-width="1.2" filter="url(#sh)"/>
+<rect x="1330" y="1100" width="340" height="26" rx="4" fill="#dbe7f5" stroke="#8ea9c8" stroke-width="1.2"/>
+<text x="1340" y="1118" font-size="14" font-weight="bold" fill="#1f3864">ALU Decoder (EX 级)</text>
+<rect x="1342" y="1138" width="316" height="20" fill="#eef3fa"/>
+<text x="1372" y="1152.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">ALUOp</text>
+<text x="1432" y="1152.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">funct3</text>
+<text x="1487" y="1152.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">f7[5]</text>
+<text x="1552" y="1152.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">操作</text>
+<text x="1625" y="1152.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">ALUCtl</text>
+<text x="1372" y="1172.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00</text>
+<text x="1432" y="1172.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">xxx</text>
+<text x="1487" y="1172.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">x</text>
+<text x="1552" y="1172.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">ADD</text>
+<text x="1625" y="1172.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0000</text>
+<rect x="1342" y="1178" width="316" height="20" fill="#f8fafc"/>
+<text x="1372" y="1192.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">01</text>
+<text x="1432" y="1192.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00x</text>
+<text x="1487" y="1192.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">x</text>
+<text x="1552" y="1192.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">SUB</text>
+<text x="1625" y="1192.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0001</text>
+<text x="1372" y="1212.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">01</text>
+<text x="1432" y="1212.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">10x</text>
+<text x="1487" y="1212.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">x</text>
+<text x="1552" y="1212.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">SLT</text>
+<text x="1625" y="1212.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0011</text>
+<rect x="1342" y="1218" width="316" height="20" fill="#f8fafc"/>
+<text x="1372" y="1232.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">01</text>
+<text x="1432" y="1232.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">11x</text>
+<text x="1487" y="1232.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">x</text>
+<text x="1552" y="1232.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">SLTU</text>
+<text x="1625" y="1232.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0100</text>
+<text x="1372" y="1252.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">10</text>
+<text x="1432" y="1252.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">000</text>
+<text x="1487" y="1252.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1552" y="1252.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">ADD</text>
+<text x="1625" y="1252.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0000</text>
+<rect x="1342" y="1258" width="316" height="20" fill="#f8fafc"/>
+<text x="1372" y="1272.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">10</text>
+<text x="1432" y="1272.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">000</text>
+<text x="1487" y="1272.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="1552" y="1272.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">SUB</text>
+<text x="1625" y="1272.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0001</text>
+<text x="1372" y="1292.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">11</text>
+<text x="1432" y="1292.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">000</text>
+<text x="1487" y="1292.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">x</text>
+<text x="1552" y="1292.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">ADD</text>
+<text x="1625" y="1292.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0000</text>
+<rect x="1342" y="1298" width="316" height="20" fill="#f8fafc"/>
+<text x="1372" y="1312.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1x</text>
+<text x="1432" y="1312.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">001</text>
+<text x="1487" y="1312.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">x</text>
+<text x="1552" y="1312.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">SLL</text>
+<text x="1625" y="1312.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0010</text>
+<text x="1372" y="1332.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1x</text>
+<text x="1432" y="1332.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">010</text>
+<text x="1487" y="1332.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">x</text>
+<text x="1552" y="1332.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">SLT</text>
+<text x="1625" y="1332.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0011</text>
+<rect x="1342" y="1338" width="316" height="20" fill="#f8fafc"/>
+<text x="1372" y="1352.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1x</text>
+<text x="1432" y="1352.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">011</text>
+<text x="1487" y="1352.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">x</text>
+<text x="1552" y="1352.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">SLTU</text>
+<text x="1625" y="1352.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0100</text>
+<text x="1372" y="1372.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1x</text>
+<text x="1432" y="1372.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">100</text>
+<text x="1487" y="1372.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">x</text>
+<text x="1552" y="1372.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">XOR</text>
+<text x="1625" y="1372.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0101</text>
+<rect x="1342" y="1378" width="316" height="20" fill="#f8fafc"/>
+<text x="1372" y="1392.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1x</text>
+<text x="1432" y="1392.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">101</text>
+<text x="1487" y="1392.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0</text>
+<text x="1552" y="1392.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">SRL</text>
+<text x="1625" y="1392.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0110</text>
+<text x="1372" y="1412.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1x</text>
+<text x="1432" y="1412.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">101</text>
+<text x="1487" y="1412.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1</text>
+<text x="1552" y="1412.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">SRA</text>
+<text x="1625" y="1412.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0111</text>
+<rect x="1342" y="1418" width="316" height="20" fill="#f8fafc"/>
+<text x="1372" y="1432.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1x</text>
+<text x="1432" y="1432.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">110</text>
+<text x="1487" y="1432.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">x</text>
+<text x="1552" y="1432.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">OR</text>
+<text x="1625" y="1432.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1000</text>
+<text x="1372" y="1452.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1x</text>
+<text x="1432" y="1452.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">111</text>
+<text x="1487" y="1452.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">x</text>
+<text x="1552" y="1452.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">AND</text>
+<text x="1625" y="1452.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">1001</text>
+<line x1="1342" y1="1138" x2="1658" y2="1138" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1158" x2="1658" y2="1158" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1178" x2="1658" y2="1178" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1198" x2="1658" y2="1198" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1218" x2="1658" y2="1218" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1238" x2="1658" y2="1238" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1258" x2="1658" y2="1258" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1278" x2="1658" y2="1278" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1298" x2="1658" y2="1298" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1318" x2="1658" y2="1318" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1338" x2="1658" y2="1338" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1358" x2="1658" y2="1358" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1378" x2="1658" y2="1378" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1398" x2="1658" y2="1398" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1418" x2="1658" y2="1418" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1438" x2="1658" y2="1438" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1458" x2="1658" y2="1458" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1342" y1="1138" x2="1342" y2="1458" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1402" y1="1138" x2="1402" y2="1458" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1462" y1="1138" x2="1462" y2="1458" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1512" y1="1138" x2="1512" y2="1458" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1592" y1="1138" x2="1592" y2="1458" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1658" y1="1138" x2="1658" y2="1458" stroke="#b8c6d8" stroke-width="0.8"/>
+<text x="1342" y="1485" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">zero = (Y == 32&#x27;d0);  f7[5] = instr[30]</text>
+<rect x="1690" y="1100" width="520" height="400" rx="4" fill="#ffffff" stroke="#8ea9c8" stroke-width="1.2" filter="url(#sh)"/>
+<rect x="1690" y="1100" width="520" height="26" rx="4" fill="#dbe7f5" stroke="#8ea9c8" stroke-width="1.2"/>
+<text x="1700" y="1118" font-size="14" font-weight="bold" fill="#1f3864">多路选择器编码</text>
+<rect x="1702" y="1138" width="496" height="22" fill="#eef3fa"/>
+<text x="1762" y="1154.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">MUX</text>
+<text x="1877" y="1154.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">选择信号</text>
+<text x="2065" y="1154.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">取值 → 输出</text>
+<text x="1762" y="1176.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">PC mux (IF)</text>
+<text x="1877" y="1176.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">pc_src</text>
+<text x="2065" y="1176.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0: pc_f+4    1: pc_target</text>
+<rect x="1702" y="1182" width="496" height="22" fill="#f8fafc"/>
+<text x="1762" y="1198.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">ForwardA mux</text>
+<text x="1877" y="1198.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">ForwardA[1:0]</text>
+<text x="2065" y="1198.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00: rs1_data  01: wb_data  10: exmem_fwd</text>
+<text x="1762" y="1220.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">ForwardB mux</text>
+<text x="1877" y="1220.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">ForwardB[1:0]</text>
+<text x="2065" y="1220.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00: rs2_data  01: wb_data  10: exmem_fwd</text>
+<rect x="1702" y="1226" width="496" height="22" fill="#f8fafc"/>
+<text x="1762" y="1242.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">ALU A mux</text>
+<text x="1877" y="1242.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">ALUSrcA[1:0]</text>
+<text x="2065" y="1242.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00: rs1_fwd   01: pc_e   10: 32&#x27;d0</text>
+<text x="1762" y="1264.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">ALU B mux</text>
+<text x="1877" y="1264.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">ALUSrcB</text>
+<text x="2065" y="1264.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0: rs2_fwd    1: imm_e</text>
+<rect x="1702" y="1270" width="496" height="22" fill="#f8fafc"/>
+<text x="1762" y="1286.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">Target mux</text>
+<text x="1877" y="1286.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">Jalr_e</text>
+<text x="2065" y="1286.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0: pc_e+imm_e   1: alu_result&amp;~1</text>
+<text x="1762" y="1308.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">EX/MEM 前递 mux</text>
+<text x="1877" y="1308.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">WBSel_m[1]</text>
+<text x="2065" y="1308.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">0: alu_result_m   1: pc4_m</text>
+<rect x="1702" y="1314" width="496" height="22" fill="#f8fafc"/>
+<text x="1762" y="1330.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">WB mux</text>
+<text x="1877" y="1330.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">WBSel_w[1:0]</text>
+<text x="2065" y="1330.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">00: alu_result  01: rdata  10: pc4</text>
+<line x1="1702" y1="1138" x2="2198" y2="1138" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1702" y1="1160" x2="2198" y2="1160" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1702" y1="1182" x2="2198" y2="1182" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1702" y1="1204" x2="2198" y2="1204" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1702" y1="1226" x2="2198" y2="1226" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1702" y1="1248" x2="2198" y2="1248" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1702" y1="1270" x2="2198" y2="1270" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1702" y1="1292" x2="2198" y2="1292" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1702" y1="1314" x2="2198" y2="1314" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1702" y1="1336" x2="2198" y2="1336" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1702" y1="1138" x2="1702" y2="1336" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1822" y1="1138" x2="1822" y2="1336" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1932" y1="1138" x2="1932" y2="1336" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="2198" y1="1138" x2="2198" y2="1336" stroke="#b8c6d8" stroke-width="0.8"/>
+<text x="1702" y="1356" font-size="10.5" fill="#1f3864" font-weight="bold" font-family="inherit" xml:space="preserve">■ 流水线寄存器行为 (Verilog)</text>
+<text x="1702" y="1373" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">always @(posedge clk)</text>
+<text x="1702" y="1390" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">  if (rst || flush) q &lt;= 0;   // 气泡: 控制位全 0</text>
+<text x="1702" y="1407" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">  else if (en)      q &lt;= d;</text>
+<text x="1702" y="1424" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">IF/ID : en = ~stall, flush = pc_src (instr 清为 NOP 0x00000013)</text>
+<text x="1702" y="1441" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">ID/EX : en = 1,      flush = stall | pc_src</text>
+<text x="1702" y="1458" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">EX/MEM, MEM/WB : en = 1, flush = 0;   PC: en = ~stall</text>
+<rect x="2230" y="1100" width="550" height="400" rx="4" fill="#ffffff" stroke="#8ea9c8" stroke-width="1.2" filter="url(#sh)"/>
+<rect x="2230" y="1100" width="550" height="26" rx="4" fill="#dbe7f5" stroke="#8ea9c8" stroke-width="1.2"/>
+<text x="2240" y="1118" font-size="14" font-weight="bold" fill="#1f3864">冒险 / 前递 / 分支 逻辑方程</text>
+<text x="2242" y="1146" font-size="10.5" fill="#1f3864" font-weight="bold" font-family="inherit" xml:space="preserve">■ Hazard Detection Unit (ID 级, 组合逻辑)</text>
+<text x="2242" y="1165" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">stall = ID_EX.MemRead &amp;&amp; ID_EX.rd != 0 &amp;&amp;</text>
+<text x="2242" y="1185" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">        (ID_EX.rd == IF_ID.rs1 || ID_EX.rd == IF_ID.rs2);</text>
+<text x="2242" y="1204" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">PCWrite = IF_ID_en = ~stall;</text>
+<text x="2242" y="1224" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">IF_ID_flush = pc_src;   ID_EX_flush = stall | pc_src;</text>
+<text x="2242" y="1243" font-size="10.5" fill="#1f3864" font-weight="bold" font-family="inherit" xml:space="preserve">■ Forwarding Unit (EX 级, EX/MEM 优先)</text>
+<text x="2242" y="1263" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">if (EX_MEM.RegWrite &amp;&amp; EX_MEM.rd!=0 &amp;&amp; EX_MEM.rd==ID_EX.rs1)</text>
+<text x="2242" y="1282" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">      ForwardA = 2&#x27;b10;</text>
+<text x="2242" y="1302" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">else if (MEM_WB.RegWrite &amp;&amp; MEM_WB.rd!=0 &amp;&amp; MEM_WB.rd==ID_EX.rs1)</text>
+<text x="2242" y="1321" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">      ForwardA = 2&#x27;b01;   else ForwardA = 2&#x27;b00;</text>
+<text x="2242" y="1341" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">ForwardB: 同上, 把 rs1 换成 rs2</text>
+<text x="2242" y="1360" font-size="10.5" fill="#1f3864" font-weight="bold" font-family="inherit" xml:space="preserve">■ Branch Unit (EX 级)</text>
+<text x="2242" y="1380" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">br_true = zero ^ funct3[0] ^ funct3[2];</text>
+<text x="2242" y="1399" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">pc_src  = Jump | (Branch &amp; br_true);</text>
+<text x="2242" y="1419" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">pc_target = Jalr ? (alu_result &amp; ~32&#x27;d1) : (pc_e + imm_e);</text>
+<text x="2242" y="1438" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">pc_next   = pc_src ? pc_target : pc_f + 4;</text>
+<rect x="20" y="1520" width="900" height="340" rx="4" fill="#ffffff" stroke="#8ea9c8" stroke-width="1.2" filter="url(#sh)"/>
+<rect x="20" y="1520" width="900" height="26" rx="4" fill="#dbe7f5" stroke="#8ea9c8" stroke-width="1.2"/>
+<text x="30" y="1538" font-size="14" font-weight="bold" fill="#1f3864">流水线寄存器字段 (位宽)</text>
+<rect x="32" y="1558" width="876" height="24" fill="#eef3fa"/>
+<text x="72" y="1576.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">寄存器</text>
+<text x="277" y="1576.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">控制字段</text>
+<text x="642" y="1576.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">数据字段</text>
+<text x="875" y="1576.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">合计</text>
+<text x="72" y="1600.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">IF/ID</text>
+<text x="277" y="1600.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">—</text>
+<text x="642" y="1600.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">pc[31:0], pc4[31:0], instr[31:0]</text>
+<text x="875" y="1600.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">96</text>
+<rect x="32" y="1606" width="876" height="24" fill="#f8fafc"/>
+<text x="72" y="1624.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">ID/EX</text>
+<text x="277" y="1624.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">RegWrite, WBSel[1:0], MemRead, MemWrite, Branch,</text>
+<text x="642" y="1624.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">pc, pc4, rs1_data, rs2_data, imm (各32),</text>
+<text x="875" y="1624.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace"></text>
+<text x="72" y="1648.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit"></text>
+<text x="277" y="1648.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">Jump, Jalr, ALUSrcA[1:0], ALUSrcB, ALUOp[1:0]  (13b)</text>
+<text x="642" y="1648.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">rs1, rs2, rd (各5), funct3[2:0], funct7[5]</text>
+<text x="875" y="1648.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">192</text>
+<rect x="32" y="1654" width="876" height="24" fill="#f8fafc"/>
+<text x="72" y="1672.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">EX/MEM</text>
+<text x="277" y="1672.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">RegWrite, WBSel[1:0], MemRead, MemWrite  (5b)</text>
+<text x="642" y="1672.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">alu_result, store_data, pc4 (各32), rd[4:0], funct3</text>
+<text x="875" y="1672.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">109</text>
+<text x="72" y="1696.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">MEM/WB</text>
+<text x="277" y="1696.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">RegWrite, WBSel[1:0]  (3b)</text>
+<text x="642" y="1696.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">alu_result, rdata, pc4 (各32), rd[4:0]</text>
+<text x="875" y="1696.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">104</text>
+<line x1="32" y1="1558" x2="908" y2="1558" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="32" y1="1582" x2="908" y2="1582" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="32" y1="1606" x2="908" y2="1606" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="32" y1="1630" x2="908" y2="1630" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="32" y1="1654" x2="908" y2="1654" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="32" y1="1678" x2="908" y2="1678" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="32" y1="1702" x2="908" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="32" y1="1558" x2="32" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="112" y1="1558" x2="112" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="442" y1="1558" x2="442" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="842" y1="1558" x2="842" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="908" y1="1558" x2="908" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<text x="32" y="1725" font-size="10.5" fill="#1f3864" font-weight="bold" font-family="inherit" xml:space="preserve">■ 模块划分建议 (每个方框 = 一个 Verilog module)</text>
+<text x="32" y="1744" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">pc_reg, imem, adder(+4), if_id_reg, control, imm_gen, regfile, hazard_unit, id_ex_reg,</text>
+<text x="32" y="1763" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">mux3 x3 (ForwardA/B, ALUSrcA), mux2 x5, alu_decoder, alu, branch_unit, adder(pc+imm),</text>
+<text x="32" y="1782" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">forwarding_unit, ex_mem_reg, dmem, mem_wb_reg, top (连线与本图一一对应)</text>
+<text x="32" y="1801" font-size="10.5" fill="#1f3864" font-weight="bold" font-family="inherit" xml:space="preserve">■ 端口宽度: 数据 32 bit; 寄存器号 5 bit; ALUCtl 4 bit; funct3 3 bit</text>
+<rect x="940" y="1520" width="640" height="340" rx="4" fill="#ffffff" stroke="#8ea9c8" stroke-width="1.2" filter="url(#sh)"/>
+<rect x="940" y="1520" width="640" height="26" rx="4" fill="#dbe7f5" stroke="#8ea9c8" stroke-width="1.2"/>
+<text x="950" y="1538" font-size="14" font-weight="bold" fill="#1f3864">Imm Gen (ID 级, 内部按 opcode 选择格式)</text>
+<rect x="952" y="1558" width="616" height="24" fill="#eef3fa"/>
+<text x="982" y="1576.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">格式</text>
+<text x="1087" y="1576.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">适用 opcode</text>
+<text x="1365" y="1576.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">imm[31:0] (i = instr)</text>
+<text x="982" y="1600.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">I</text>
+<text x="1087" y="1600.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">I-ALU, LOAD, JALR</text>
+<text x="1365" y="1600.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">{{21{i[31]}}, i[30:20]}</text>
+<rect x="952" y="1606" width="616" height="24" fill="#f8fafc"/>
+<text x="982" y="1624.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">S</text>
+<text x="1087" y="1624.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">STORE</text>
+<text x="1365" y="1624.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">{{21{i[31]}}, i[30:25], i[11:7]}</text>
+<text x="982" y="1648.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">B</text>
+<text x="1087" y="1648.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">BRANCH</text>
+<text x="1365" y="1648.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">{{20{i[31]}}, i[7], i[30:25], i[11:8], 1&#x27;b0}</text>
+<rect x="952" y="1654" width="616" height="24" fill="#f8fafc"/>
+<text x="982" y="1672.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">U</text>
+<text x="1087" y="1672.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">LUI, AUIPC</text>
+<text x="1365" y="1672.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">{i[31:12], 12&#x27;b0}</text>
+<text x="982" y="1696.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="inherit">J</text>
+<text x="1087" y="1696.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">JAL</text>
+<text x="1365" y="1696.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">{{12{i[31]}}, i[19:12], i[20], i[30:21], 1&#x27;b0}</text>
+<line x1="952" y1="1558" x2="1568" y2="1558" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="952" y1="1582" x2="1568" y2="1582" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="952" y1="1606" x2="1568" y2="1606" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="952" y1="1630" x2="1568" y2="1630" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="952" y1="1654" x2="1568" y2="1654" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="952" y1="1678" x2="1568" y2="1678" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="952" y1="1702" x2="1568" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="952" y1="1558" x2="952" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1012" y1="1558" x2="1012" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1162" y1="1558" x2="1162" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1568" y1="1558" x2="1568" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<text x="952" y="1725" font-size="10.5" fill="#1f3864" font-weight="bold" font-family="inherit" xml:space="preserve">■ Register File</text>
+<text x="952" y="1744" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">2 读 1 写; 读为组合逻辑, 写在 posedge clk (we &amp;&amp; wa != 0)</text>
+<text x="952" y="1763" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">rd1 = (we &amp;&amp; wa!=0 &amp;&amp; wa==ra1) ? wd : rf[ra1];  rd2 同理</text>
+<text x="952" y="1782" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">→ WB 与 ID 同周期访问同一寄存器时无需额外前递</text>
+<rect x="1600" y="1520" width="590" height="340" rx="4" fill="#ffffff" stroke="#8ea9c8" stroke-width="1.2" filter="url(#sh)"/>
+<rect x="1600" y="1520" width="590" height="26" rx="4" fill="#dbe7f5" stroke="#8ea9c8" stroke-width="1.2"/>
+<text x="1610" y="1538" font-size="14" font-weight="bold" fill="#1f3864">Data Memory (MEM 级)</text>
+<rect x="1612" y="1558" width="566" height="24" fill="#eef3fa"/>
+<text x="1652" y="1576.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">funct3</text>
+<text x="1732" y="1576.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">LOAD</text>
+<text x="1812" y="1576.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">STORE</text>
+<text x="2015" y="1576.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="bold" font-family="inherit">说明</text>
+<text x="1652" y="1600.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">000</text>
+<text x="1732" y="1600.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">LB</text>
+<text x="1812" y="1600.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">SB</text>
+<text x="2015" y="1600.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">字节, 符号扩展</text>
+<rect x="1612" y="1606" width="566" height="24" fill="#f8fafc"/>
+<text x="1652" y="1624.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">001</text>
+<text x="1732" y="1624.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">LH</text>
+<text x="1812" y="1624.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">SH</text>
+<text x="2015" y="1624.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">半字, 符号扩展</text>
+<text x="1652" y="1648.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">010</text>
+<text x="1732" y="1648.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">LW</text>
+<text x="1812" y="1648.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">SW</text>
+<text x="2015" y="1648.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">字</text>
+<rect x="1612" y="1654" width="566" height="24" fill="#f8fafc"/>
+<text x="1652" y="1672.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">100</text>
+<text x="1732" y="1672.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">LBU</text>
+<text x="1812" y="1672.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">—</text>
+<text x="2015" y="1672.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">字节, 零扩展</text>
+<text x="1652" y="1696.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">101</text>
+<text x="1732" y="1696.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">LHU</text>
+<text x="1812" y="1696.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">—</text>
+<text x="2015" y="1696.5" font-size="10.5" fill="#222" text-anchor="middle" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace">半字, 零扩展</text>
+<line x1="1612" y1="1558" x2="2178" y2="1558" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1612" y1="1582" x2="2178" y2="1582" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1612" y1="1606" x2="2178" y2="1606" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1612" y1="1630" x2="2178" y2="1630" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1612" y1="1654" x2="2178" y2="1654" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1612" y1="1678" x2="2178" y2="1678" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1612" y1="1702" x2="2178" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1612" y1="1558" x2="1612" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1692" y1="1558" x2="1692" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1772" y1="1558" x2="1772" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="1852" y1="1558" x2="1852" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<line x1="2178" y1="1558" x2="2178" y2="1702" stroke="#b8c6d8" stroke-width="0.8"/>
+<text x="1612" y="1725" font-size="10.5" fill="#1f3864" font-weight="bold" font-family="inherit" xml:space="preserve">■ 接口</text>
+<text x="1612" y="1744" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">addr = alu_result_m, wdata = store_data_m (rs2 经前递)</text>
+<text x="1612" y="1763" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">we = MemWrite_m: 按 addr[1:0] 与 funct3 生成字节使能 be[3:0], 数据左移对齐</text>
+<text x="1612" y="1782" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">re = MemRead_m : 读出字按 addr[1:0] 右移, 再按 funct3 扩展 → rdata_m</text>
+<text x="1612" y="1801" font-size="10.5" fill="#222" font-weight="normal" font-family="Consolas, Menlo, DejaVu Sans Mono, monospace" xml:space="preserve">写: posedge clk 同步;  读: 组合 (或同步读 + 调整时序)</text>
+<rect x="2210" y="1520" width="570" height="340" rx="4" fill="#ffffff" stroke="#8ea9c8" stroke-width="1.2" filter="url(#sh)"/>
+<rect x="2210" y="1520" width="570" height="26" rx="4" fill="#dbe7f5" stroke="#8ea9c8" stroke-width="1.2"/>
+<text x="2220" y="1538" font-size="14" font-weight="bold" fill="#1f3864">时序与冒险处理小结</text>
+<text x="2222" y="1566" font-size="10.5" fill="#1f3864" font-weight="bold" font-family="inherit" xml:space="preserve">■ 数据冒险</text>
+<text x="2222" y="1585" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">· EX→EX : EX/MEM 前递 (exmem_fwd, 含 JAL/JALR 的 pc+4)</text>
+<text x="2222" y="1605" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">· MEM→EX: MEM/WB 前递 (wb_data, 含 load 数据)</text>
+<text x="2222" y="1624" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">· WB→ID : 寄存器堆写优先旁路</text>
+<text x="2222" y="1644" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">· load-use: 停顿 1 拍 (PC/IF_ID 保持, ID/EX 插气泡)</text>
+<text x="2222" y="1663" font-size="10.5" fill="#1f3864" font-weight="bold" font-family="inherit" xml:space="preserve">■ 控制冒险</text>
+<text x="2222" y="1683" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">· 静态预测不跳转; 分支/JAL/JALR 在 EX 解析</text>
+<text x="2222" y="1702" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">· pc_src=1: PC ← pc_target, 冲刷 IF/ID 与 ID/EX (2 拍代价)</text>
+<text x="2222" y="1722" font-size="10.5" fill="#1f3864" font-weight="bold" font-family="inherit" xml:space="preserve">■ 其它</text>
+<text x="2222" y="1741" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">· store 的 rs2 同样经过 ForwardB → store_data</text>
+<text x="2222" y="1761" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">· x0 写被屏蔽; rd==0 不参与前递/停顿比较</text>
+<text x="2222" y="1780" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">· 本图中 stall 与 pc_src 不会同时有效 (EX 为 load 时</text>
+<text x="2222" y="1800" font-size="10.5" fill="#222" font-weight="normal" font-family="inherit" xml:space="preserve">  不可能是分支), 因此无需优先级处理</text>
+</svg>
